@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📍 IP Address Tracker
 
-## Getting Started
+Aplicação web que permite pesquisar a localização geográfica de qualquer endereço IP, exibindo informações como região, fuso horário e provedor de internet em um mapa interativo.
 
-First, run the development server:
+## 🖥️ Preview
+
+![IP Address Tracker](./public/images/preview.png)
+
+---
+
+## ✨ Funcionalidades
+
+- Carregamento automático com o IP e localização do próprio usuário
+- Busca de localização por qualquer endereço IP
+- Exibição de região, fuso horário e ISP
+- Mapa interativo com animação de voo até a localização
+- Tratamento de erros e validação de input
+
+---
+
+## 🛠️ Tecnologias
+
+- [Next.js 14](https://nextjs.org/) — framework React com App Router
+- [React Leaflet](https://react-leaflet.js.org/) — mapa interativo
+- [ip-api.com](https://ip-api.com/) — API de geolocalização por IP
+
+---
+
+## 🚀 Como rodar localmente
 
 ```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/ip-address-tracker.git
+
+# Entre na pasta
+cd ip-address-tracker
+
+# Instale as dependências
+npm install
+
+# Rode o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000) no navegador.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Estrutura do projeto
 
-## Learn More
+```
+app/
+├── api/
+│   └── ip/
+│       └── route.js        # Rota de API que consulta o ip-api.com
+├── components/
+│   ├── Cabecalho.jsx       # Input de busca
+│   ├── Info.jsx            # Exibição dos dados do IP
+│   ├── Mapa.jsx            # Componente do mapa (Leaflet)
+│   └── MapaDinamico.jsx    # Wrapper com carregamento dinâmico (ssr: false)
+└── page.jsx                # Página principal
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔌 API Route
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A rota `/api/ip` recebe um parâmetro `ip` via query string e consulta a API externa:
 
-## Deploy on Vercel
+```
+GET /api/ip?ip=8.8.8.8   → retorna dados do IP informado
+GET /api/ip?ip=           → retorna dados do IP do próprio usuário
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Retorna os dados de geolocalização em JSON com os status codes adequados:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `500` — Erro interno ao consultar a API
+
+---
+
+## 💡 Decisões técnicas
+
+**`dynamic` com `ssr: false` no Mapa**
+O Leaflet depende de APIs do navegador (`window`, `document`) que não existem no servidor. O carregamento dinâmico com `ssr: false` evita erros de renderização no servidor.
+
+**Estado unificado com `useState`**
+Todos os dados retornados pela API — incluindo o IP — são armazenados em um único objeto de estado. Isso garante que o componente re-renderiza apenas uma vez por busca, evitando renders em cascata.
+
+**`useCallback` na função de busca**
+A função `buscarIp` é estabilizada com `useCallback` para poder ser usada com segurança como dependência do `useEffect` e também passada como prop ao componente `Cabecalho`.
+
+**Busca automática na montagem**
+O `useEffect` chama `buscarIp("")` com array vazio, buscando os dados do IP do próprio usuário assim que a página carrega.
+
+**`useEffect` no componente do mapa**
+O `map.flyTo` fica dentro de um `useEffect` com `[latitude, longitude, map]` como dependências, garantindo que a animação só dispara quando as coordenadas realmente mudam.
+
+**Semântica HTML**
+Uso de `<dl>`, `<dt>` e `<dd>` para a lista de informações do IP, seguindo boas práticas de acessibilidade e semântica.
+
+**Acessibilidade**
+- `title` no `Marker` do mapa para leitores de tela
+- `aria-label` na seção do mapa durante o carregamento
+
+---
+
+## 📝 Licença
+
+MIT

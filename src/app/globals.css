@@ -1,49 +1,214 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+@import 'leaflet/dist/leaflet.css';
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  margin: 0;
+  font-family: 'Rubik', sans-serif;
 }
 
-html {
+.cabecalho {
+  width: 100%;
+  min-height: 280px;
+  background-image: url('/images/pattern-bg-desktop.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 28px 24px 0;
+}
+
+.cabecalho .titulo {
+  margin: 0 0 28px;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cabecalho .container-input {
+  width: 100%;
+  max-width: 555px;
+  height: 58px;
+
+  display: flex;
+  align-items: stretch;
+
+  border-radius: 15px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.cabecalho .container-input input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+
+  padding: 0 24px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 400;
+  color: hsl(0, 0%, 17%);
+}
+
+.cabecalho .container-input input::placeholder {
+  color: hsl(0, 0%, 58%);
+}
+
+.cabecalho .container-input button {
+  width: 58px;
+  border: none;
+  background: hsl(0, 0%, 17%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cabecalho .container-input button:hover {
+  background: #000;
+}
+
+.cabecalho .container-input button img {
+  width: 11px;
+  height: 14px;
+}
+.info-ip {
+  width: min(100% - 48px, 1110px);
+  min-height: 160px;
+
+  position: relative;
+  z-index: 1000;
+  margin: -80px auto 0;
+
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.15);
+}
+
+.info-ip dl {
+  margin: 0;
+  padding: 36px 32px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.info-ip dl div {
+  min-height: 88px;
+  padding: 0 32px;
+  border-right: 1px solid hsl(0, 0%, 85%);
+}
+
+.info-ip dl div:first-child {
+  padding-left: 0;
+}
+
+.info-ip dl div:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.info-ip dt {
+  color: hsl(0, 0%, 58%);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.info-ip dd {
+  margin: 0;
+
+  color: hsl(0, 0%, 17%);
+  font-size: 26px;
+  line-height: 1.15;
+  font-weight: 500;
+}
+
+.mapa {
+  width: 100%;
+  height: calc(90vh - 200px);
+  min-height: 500px;
+  position: relative;
+  z-index: 1;
+  margin-top: -98px;
+}
+
+.leaflet-container {
+  width: 100%;
   height: 100%;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+@media (max-width: 600px) {
+  .cabecalho {
+    min-height: 300px;
+    background-image: url('/images/pattern-bg-mobile.png');
+    padding: 26px 24px 0;
+  }
+
+  .cabecalho .titulo {
+    margin-bottom: 30px;
+    font-size: 26px;
+  }
+
+  .cabecalho .container-input {
+    max-width: 100%;
+    height: 58px;
+  }
+
+  .cabecalho .container-input input {
+    padding: 0 18px;
+    font-size: 18px;
+  }
+
+  .cabecalho .container-input button {
+    width: 58px;
+    flex-shrink: 0;
+  }
+
 }
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@media (max-width: 700px){
+  .info-ip {
+    width: calc(100% - 48px);
+    min-height: auto;
+    margin: -120px auto 0;
+  }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+  .info-ip dl {
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  .info-ip dl div {
+    min-height: auto;
+    padding: 0;
+    border-right: none;
+  }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+  .info-ip dt {
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .info-ip dd {
+    font-size: 20px;
+  }
+  .mapa {
+    margin-top: -175px;
   }
 }
