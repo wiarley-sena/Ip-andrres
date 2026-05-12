@@ -32,7 +32,16 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    buscarIp("");
+    const buscarPrincipal = async ()=> {
+      try{
+        const respotaIp = await fetch("https://api.ipify.org?format=json");
+        const {ip} = await respotaIp.json();
+        buscarIp(ip)
+      }catch{
+        console.error("Erro ao buscar o IP principal")
+      }
+    };
+    buscarPrincipal();
   }, [buscarIp]);
 
   return (
