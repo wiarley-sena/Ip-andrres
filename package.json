@@ -1,6 +1,6 @@
 {
-  "homepage": "https://wiarley-sena.github.io/rest-countries-api",
-  "name": "rest-countries-api",
+  "homepage": "https://wiarley-sena.github.io/Ip-andrres",
+  "name": "ip",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -27,12 +27,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wiarley-sena/rest-countries-api.git"
+    "url": "git+https://github.com/wiarley-sena/Ip-andrres.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wiarley-sena/rest-countries-api/issues"
+    "url": "https://github.com/wiarley-sena/Ip-andrres/issues"
   }
 }
